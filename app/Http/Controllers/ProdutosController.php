@@ -12,22 +12,7 @@ class ProdutosController extends Controller
      */
     public function index()
     {
-        return view('produtos.index');
-    }
-
-    public function produtos(Request $request)
-    {
-        $filtroTipo = $request->query('tipo');
-
-        // Se um tipo foi fornecido, filtre os produtos por tipo
-        $query = Produtos::query();
-        if ($filtroTipo !== null) {
-            $query->where('tipo', $filtroTipo);
-        }
-
-        $produtos = $query->get();
-
-        return response()->json(['produtos' => $produtos]);
+        //
     }
 
     /**

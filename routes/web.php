@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\PedidosController;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
 
@@ -22,5 +23,6 @@ Auth::routes();
 
 Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
 
-Route::get('/produtos', [App\Http\Controllers\ProdutosController::class, 'index']);
-Route::get('/produtos/lista', [App\Http\Controllers\ProdutosController::class, 'produtos']);
+Route::get('/produtos', [PedidosController::class, 'index']);
+Route::get('/produtos/lista', [PedidosController::class, 'produtos']);
+Route::post('/produtos', [PedidosController::class, 'store'])->name('pedidos.store');

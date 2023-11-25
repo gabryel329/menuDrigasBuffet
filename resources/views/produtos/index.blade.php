@@ -15,8 +15,15 @@
                 <li data-tipo="4">Bolos</li>
             </ul>
 
+            <div class="col-mt-2">
+                <button id="botaoEnviar" class="btn btn-danger">AVANÇAR</button>
+            </div>
+
             <div class="filters-content" id="lista-de-produtos">
-                <!-- Aqui serão exibidos os produtos via AJAX -->
+                <form id="meuFormulario" action="{{ route('pedidos.store') }}" method="POST">
+                    @csrf
+                    <!-- Aqui serão exibidos os produtos via AJAX -->
+                </form>
             </div>
         </div>
     </section>
@@ -77,27 +84,30 @@
 
             // Loop through each product and add the corresponding HTML
             produtos.forEach(function (produto) {
-                htmlString += '<div class="col-sm-2 col-lg-3">' +
-                    '<div class="box">' +
-                    '<div>' +
-                    '<div class="img-box">' +
-                    '<img style="border-radius: 50%;" width="150" height="150" ' +
-                    'src="{{ asset("images/") }}/' + produto.imagem + '" ' +
-                    'alt="' + produto.nome + '" ' +
-                    'onclick="aplicarZoomNaImagem(this)" ' +
-                    'onmouseout="removerZoomNaImagem(this)">' +
-                    '</div>' +
-                    '<div class="detail-box">' +
-                    '<h5>' +
-                    '<strong>' + produto.nome + '</strong>' +
-                    '</h5>' +
-                    '<div class="options">' +
-                    '<h6>R$ ' + produto.preco + '</h6>' +
-                    '</div>' +
-                    '</div>' +
-                    '</div>' +
-                    '</div>' +
-                    '</div>';
+                htmlString +=   '<div class="col-sm-2 col-lg-3">' +
+                                    '<div class="box">' +
+                                        '<div>' +
+                                            '<div class="img-box">' +
+                                                '<img style="border-radius: 50%;" width="150" height="150" ' +
+                                                'src="{{ asset("images/") }}/' + produto.imagem + '" ' +
+                                                'alt="' + produto.nome + '" ' +
+                                                'onclick="aplicarZoomNaImagem(this)" ' +
+                                                'onmouseout="removerZoomNaImagem(this)">' +
+                                            '</div>' +
+                                            '<div class="detail-box">' +
+                                                '<h5>' +
+                                                    '<strong>' + produto.nome + '</strong>' +
+                                                '</h5>' +
+                                                '<div class="options">' +
+                                                    '<h6>R$ ' + produto.preco + ' ' + produto.descricao + '</h6>' +
+                                                '</div>' +
+                                                '<div class="options">' +
+                                                    '<input style="text-align:center;" min="0" type="number">' +
+                                                '</div>' +
+                                            '</div>' +
+                                        '</div>' +
+                                    '</div>' +
+                                '</div>';
             });
 
             // Close the row after the loop
@@ -137,6 +147,31 @@
 
                 // Carregar produtos com o tipo selecionado
                 carregarProdutos(tipoSelecionado);
+            });
+        });
+
+        // Função AJAX para enviar o formulário
+        $(document).ready(function() {
+            $("#botaoEnviar").click(function(e) {
+                e.preventDefault(); // Evita o comportamento padrão do botão
+
+                // Coleta os dados do formulário
+                var formData = $("#meuFormulario").serialize();
+
+                // Envia a requisição AJAX
+                $.ajax({
+                    url: "{{ route('pedidos.store') }}",
+                    type: "POST",
+                    data: formData,
+                    success: function(response) {
+                        // Lidar com a resposta bem-sucedida aqui, se necessário
+                        console.log(response);
+                    },
+                    error: function(error) {
+                        // Lidar com erros aqui, se necessário
+                        console.error(error);
+                    }
+                });
             });
         });
     </script>

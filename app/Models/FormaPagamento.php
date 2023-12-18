@@ -10,12 +10,12 @@ class FormaPagamento extends Model
 {
     use HasFactory, SoftDeletes;
 
-    protected $table = 'forma_pagamentos';
-    protected $fillable = ['nome'];
+    protected $table = 'forma_pagamento';
+    protected $fillable = ['forma'];
     protected $dates = ['deleted_at'];
 
     public function pedidos()
     {
-        return $this->hasMany(Pedidos::class, 'forma_pagamento_id');
+        return $this->hasMany(Pedido::class, 'forma_pagamento_id');
     }
 }

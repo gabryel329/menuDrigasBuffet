@@ -10,12 +10,12 @@ class Status extends Model
 {
     use HasFactory, SoftDeletes;
 
-    protected $table = 'statuses';
-    protected $fillable = ['nome'];
+    protected $table = 'status';
+    protected $fillable = ['status'];
     protected $dates = ['deleted_at'];
 
     public function pedidos()
     {
-        return $this->hasMany(Pedidos::class, 'status_id');
+        return $this->hasMany(Pedido::class, 'status_id');
     }
 }
